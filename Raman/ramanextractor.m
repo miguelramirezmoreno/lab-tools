@@ -1,3 +1,6 @@
+%Script to extract individual intensity profiles from Raman spectral
+%dasets.
+
 clc;
 close all;
 clear variables;
