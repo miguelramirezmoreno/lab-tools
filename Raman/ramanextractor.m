@@ -1,5 +1,5 @@
 %Script to extract individual intensity profiles from Raman spectral
-%dasets.
+%datasets originated from Irootlab.
 
 clc;
 close all;
