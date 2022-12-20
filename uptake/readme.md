@@ -1,5 +1,18 @@
 Work in progress
 
+# Instructions
+
+1. Download the whole uptake folder
+ 
+2. Preprocess images for the assay
+ - Files must be ".tif"
+ - Files must be numbered from 1 to end, with no gaps
+ - Files have the same channel order
+ 
+3. run "uptake_preprocessing.m" to generate average and maximum projections.
+4. Use Tissue analyzer (Fiji) to generate segmentation masks of the cell borders contained inside a folder named as "number.tif".
+5. Run 
+
 # Notes
 
 ## Loading stacks using bfopen
