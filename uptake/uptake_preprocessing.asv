@@ -72,8 +72,8 @@ for i=1:numberfiles
     %we now generate the variables that will contain the data for the
     %projections
 
-    ecad_signal= []
-    tau_signal= []
+    ecad_signal= [];
+    tau_signal= [];
 
     %% 3.5 The second loop begins, to generate stacks of E-cad and Tau
     for j= 1:3:size(disc, 1)
@@ -82,27 +82,48 @@ for i=1:numberfiles
 
     for j= 3:3:size(disc, 1)
         tau_signal = cat(3,tau_signal,double(disc{j}));
-
     end
-    hstack= size(ecad_signal,1);
-    wstack= size(ecad_signal,2);
+    
+    apicalecad= ecad_signal(:,:,1:6);
+    basalecad= ecad_signal(:,:, 8:14);
+    apicaltau = tau_signal (:,:,1:6);
+    basaltau = tau_signal (:,:,8:14);
 
-    [X, Y] = ndgrid(1: hstack, 1:wstack);
+    cd(border_dir);
+    
+    borderecad = squeeze(max(apicalecad, [], 3));
+    borderecad = uint16(borderecad);
+    cd(border_dir);
+    imwrite(borderecad,[num2str(i), '.tif']);
+    
+    %code to make average apical ecad at ecadapical_dir
+    cd(ecadapical_dir);
+    apical_ecad = (sum(apicalecad,3))/6;
+    apical_ecad = uint16(apical_ecad);
+    imwrite(apical_ecad,[num2str(i), '.tif']);
 
-    GFP_average = uint16(GFP_average/GFP_steps);
-    avg_thr= graythresh((im2double(GFP_average)));
-    GFP_max= imadjust(uint16(GFP_max));
-    max_thr= graythresh((im2double(GFP_max)));
-    thr_file = [avg_thr, max_thr];
-    thr_values = [thr_values; thr_file];
-    cd(avg_dir);
-    imwrite(GFP_average,[num2str(i), '.tif']);
-    cd(max_dir);
-    imwrite(GFP_max,[num2str(i), '.tif']);
+    %code to make average basal ecad at ecadbasal_dir
+    cd(apical_dir);
+    apical_tau = (sum(apicaltau,3))/6;
+    apical_tau = uint16(apical_tau);
+    imwrite(apical_tau,[num2str(i), '.tif']);
 
-    summary_thr(i,:)= [i, avg_thr,max_thr];
-%      imshow(imbinarize(GFP_average))
+    %code to make average apical tau at
+    cd(apical_dir);
+    apical_tau = (sum(apicaltau,3))/6;
+    apical_tau = uint16(apical_tau);
+    imwrite(apical_tau,[num2str(i), '.tif']);
+
+    %code to make average basal tau at
+    cd(basal_dir);
+    basal_tau = (sum(basaltau,3))/6;
+    basal_tau = uint16(basal_tau);
+    imwrite(basal_tau,[num2str(i), '.tif']);
+
     cd(filedir);
-%     movefile([num2str(i), '.tif'], ori_dir);
-
+    
 end
+
+close all;
+clear variables;
+clc;

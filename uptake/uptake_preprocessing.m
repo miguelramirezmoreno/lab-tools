@@ -1,4 +1,4 @@
-%Uptake Quantifier v0.1, work in progress.
+%Uptake Quantifier v1.0
 
 
 %This script generate projections from .tif files extracted from .lei
@@ -83,13 +83,47 @@ for i=1:numberfiles
     for j= 3:3:size(disc, 1)
         tau_signal = cat(3,tau_signal,double(disc{j}));
     end
-
-    borderecad= ecad_signal(:,:,1:6);
-    borderecad = squeeze(max(borderecad, [], 3));
-    borderecad = uint16(borderecad);
-    cd(border_dir);
-    imwrite(borderecad,[num2str(i), '.tif']);
     
+    apicalecad= ecad_signal(:,:,1:6);
+    basalecad= ecad_signal(:,:, 8:14);
+    apicaltau = tau_signal (:,:,1:6);
+    basaltau = tau_signal (:,:,8:14);
+
+    cd(border_dir);
+    
+    borderecad = squeeze(max(apicalecad, [], 3));
+    borderecad = uint16(borderecad);
+    bg = imopen(borderecad,strel('disk',15));
+    borderadj = imsubtract(borderecad,bg);
+    borderadj = imadjust(borderecad);
+    borderadj = im2uint8(borderadj);
+
+    imwrite(borderadj,[num2str(i), '.tif']);
+    
+    %code to make average apical ecad at ecadapical_dir
+    cd(ecadapical_dir);
+    apical_ecad = (sum(apicalecad,3))/6;
+    apical_ecad = uint16(apical_ecad);
+    imwrite(apical_ecad,[num2str(i), '.tif']);
+
+    %code to make average basal ecad at ecadbasal_dir
+    cd(ecadbasal_dir);
+    basal_tau = (sum(basaltau,3))/6;
+    basal_tau = uint16(basal_tau);
+    imwrite(basal_tau,[num2str(i), '.tif']);
+
+    %code to make average apical tau at
+    cd(apical_dir);
+    apical_tau = (sum(apicaltau,3))/6;
+    apical_tau = uint16(apical_tau);
+    imwrite(apical_tau,[num2str(i), '.tif']);
+
+    %code to make average basal tau at
+    cd(basal_dir);
+    basal_tau = (sum(basaltau,3))/6;
+    basal_tau = uint16(basal_tau);
+    imwrite(basal_tau,[num2str(i), '.tif']);
+
     cd(filedir);
     
 end
