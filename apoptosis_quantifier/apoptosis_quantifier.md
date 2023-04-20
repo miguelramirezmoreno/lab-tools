@@ -12,4 +12,4 @@ This script is designed to analyze cell death at the wing disc.
 ## Future updates
 
 -  Optimize the processing as for some images the threshold is not good. The script generates binary masks for all the segmented images, so manual inspection is encouraged.
--  The script will be adapted also to quantify proliferation.
+-  The script will also be adapted to quantify proliferation.
