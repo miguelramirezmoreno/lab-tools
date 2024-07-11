@@ -13,12 +13,12 @@ run("Split Channels");
 run("Invert");
 run("Grays");
 run("RGB Color");
-saveAs("Tiff", direc+img_name+"_GFP");
+saveAs("Tiff", direc+img_name+"_Tau");
 close();
 run("Invert");
 run("Grays");
 
 run("RGB Color");
-saveAs("Tiff", direc+img_name+"_Tau");
+saveAs("Tiff", direc+img_name+"_GFP");
 close();
 close();
