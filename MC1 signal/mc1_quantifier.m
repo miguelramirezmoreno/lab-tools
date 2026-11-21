@@ -64,7 +64,7 @@ summary(i,8) = summary(i,6) - summary(i,7);
 cherryvalue = cherry_signal;
 cherryvalue(gfpbw==0)=0;
 summary(i,9) = mean(cherryvalue(cherryvalue~=0));
-cherrybg = mc1_signal;
+cherrybg = cherry_signal;
 cherrybg(gfpbw==1)=0;
 summary(i,10) = mean(cherrybg(cherrybg~=0));
 summary(i,11) = summary(i,9) - summary(i,10);
